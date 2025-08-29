@@ -29,3 +29,13 @@ def listing_list(request):
     This context will be injected in the template """
     
     return render(request, "listings.html", context)
+
+
+# Retrieve
+def listing_retrieve(request, pk):
+    listing = Listing.objects.get(id=pk)
+    context = {
+        listing: listing
+    }
+    
+    return render(request, "listings.html", context)
