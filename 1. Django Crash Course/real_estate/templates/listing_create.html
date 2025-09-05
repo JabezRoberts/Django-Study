@@ -1,0 +1,6 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p}}
+    {% comment %} form.as_p is form as paragraphs {% endcomment %}
+     <button type="submit">Submit</button>
+</form>

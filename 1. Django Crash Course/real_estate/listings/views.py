@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Listing
+from .forms import ListingForm
 
 
 # Create your views here.
@@ -39,3 +40,58 @@ def listing_retrieve(request, pk):
     }
     
     return render(request, "listings.html", context)
+
+# Need form to create and update
+def listing_create(request):
+    # if request.method == "POST":
+    #     form = ListingForm(request.POST)
+    #     if form.is_valid():
+    #         #TODO
+    #         pass
+    #     context = {
+    #         "form": form
+    #     }
+    #     return render(request, "listing_create.html", context)
+        
+    # form = ListingForm()
+    # context = {
+    #     "form": form
+    # }
+    # return render(request, "listing_create.html", context)
+    
+    form = ListingForm()
+    if request.method == "POST":
+        form = ListingForm(request.POST)
+        if form.is_valid():
+            form.save() # create a new listing with the entered data. Save entered data
+            # to the database
+            return redirect("/")
+    context = {
+        "form": form
+    }
+    return render(request, "listing_create.html", context)
+
+
+
+# Listing update view
+def listing_update(request, pk):    
+    listing = Listing.objects.get(id=pk)
+    form = ListingForm(instance=listing) # The instance to update is this specific listing
+    
+    if request.method == "POST":
+        form = ListingForm(request.POST, instance=listing)
+        if form.is_valid():
+            form.save() # create a new listing with the entered data. Save entered data
+            # to the database
+            return redirect("/")
+    context = {
+        "form": form
+    }
+    return render(request, "listing_update.html", context)
+
+
+# Delete view
+def lisitng_delete(request, pk):
+    listing = Listing.objects.get(id=pk)
+    listing.delete()
+    return redirect("/")
