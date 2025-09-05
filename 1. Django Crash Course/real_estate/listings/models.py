@@ -11,7 +11,7 @@ class Listing(models.Model): # class will be interpreted as a database table
     num_bathrooms = models.IntegerField()
     square_footage = models.IntegerField()
     address = models.CharField(max_length=300)
-    # image 
+    image = models.ImageField()
     
     def __str__(self):
         return self.title
